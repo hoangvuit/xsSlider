@@ -1,0 +1,2 @@
+# xsSlider
+Extremely simple slider
