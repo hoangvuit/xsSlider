@@ -91,12 +91,11 @@
                 if (absMove > slideW / 6 || longTouch === false) {
                     if ((moveX > currentSlide * slideW)) {
                         currentSlide++;
-                        moveStage();
                     } else if ((moveX < currentSlide * slideW)) {
                         currentSlide--;
-                        moveStage();
                     }
                 }
+                moveStage();
             });
         },
         init = function (element) {
