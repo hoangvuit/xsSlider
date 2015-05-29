@@ -3,7 +3,8 @@
             width: 'auto',
             height: 400,
             transitionDuration: 500,
-            autoPlayDuration: 5000
+            autoPlayDuration: 5000,
+            autoPlayPaused: false
         },
         settings, container, viewport, slidesContainer, slides, slideW, slideH, totalSlides,
         currentSlide = 1;
@@ -82,8 +83,9 @@
             slidesContainer.on('touchmove', function (event) {
                 touchMoveX = event.originalEvent.touches[0].pageX;
                 moveX = currentSlide * slideW + (touchStartX - touchMoveX);
-                var panX = 100 - moveX / 6;
-
+                if (Math.abs(touchStartX - touchMoveX) > 5) {
+                    event.preventDefault();
+                }
                 slidesContainer.css('transform', 'translate(-' + moveX + 'px,0,0)');
             });
             slidesContainer.on('touchend', function (event) {
@@ -97,6 +99,22 @@
                 }
                 moveStage();
             });
+        },
+        initEvents = function () {
+            viewport.hover(function () {
+                settings.autoPlayPaused = true;
+            }, function () {
+                settings.autoPlayPaused = false;
+            });
+        },
+        autoPlay = function () {
+            window.setTimeout(function () {
+                autoPlay();
+                if (!settings.autoPlayPaused) {
+                    currentSlide += 1;
+                    moveStage();
+                }
+            }, settings.autoPlayDuration);
         },
         init = function (element) {
             container = element;
@@ -113,6 +131,7 @@
             prepareStage();
             setupControls();
             jumpToSlide();
+            initEvents();
             initTouchEvents();
 
             $(window).on('resize', function () {
@@ -122,6 +141,8 @@
                     jumpToSlide();
                 }, 200);
             }).trigger('resize');
+
+            autoPlay();
         }
 
     $.fn.xsSlider = function (options) {
