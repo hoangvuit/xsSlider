@@ -35,6 +35,7 @@
             }
         },
         setupControls = function () {
+            // navigation
             var slideNav = $('<div class="xs-slider-nav"><a href="#" class="prev">Previous</a><a href="#" class="next">Next</a></div>');
             viewport.append(slideNav);
 
@@ -45,6 +46,20 @@
                 } else {
                     currentSlide += 1;
                 }
+                moveStage();
+            });
+
+            // indicators
+            var slideIndicators = $('<div class="xs-slider-indicators"></div>');
+            for (var i = 1; i < totalSlides - 1; i++) {
+                var helperClass = (i == 1) ? 'active' : '';
+                var indicatorMarkup = $('<a href="#" class="indicator ' + helperClass + '" id="indicator-' + i + '" data-slide-pos="' + i + '"></a>');
+                slideIndicators.append(indicatorMarkup).appendTo(viewport);
+            }
+
+            slideIndicators.find('a').on('click', function (e) {
+                e.preventDefault();
+                currentSlide = parseInt($(this).data('slidePos'));
                 moveStage();
             });
         },
@@ -60,6 +75,7 @@
                     jumpToSlide(totalSlides - 2);
                 }
             });
+            activeIndicator();
         },
         jumpToSlide = function (pos) {
             currentSlide = pos || currentSlide;
@@ -69,11 +85,25 @@
                 x: distance
             }, 0);
         },
+        activeIndicator = function () {
+            var activeSlide;
+            if (currentSlide == 0) {
+                activeSlide = 4;
+            } else if (currentSlide == 5) {
+                activeSlide = 1;
+            } else {
+                activeSlide = currentSlide;
+            }
+
+            $('.indicator').removeClass('active');
+            $('#indicator-' + activeSlide).addClass('active');
+        },
         initTouchEvents = function () {
             var longTouch = false,
                 touchStartX, touchMoveX, moveX;
 
             slidesContainer.on('touchstart', function (event) {
+                settings.autoPlayPaused = true;
                 window.setTimeout(function () {
                     longTouch = true;
                 }, 250);
@@ -89,6 +119,7 @@
                 slidesContainer.css('transform', 'translate(-' + moveX + 'px,0,0)');
             });
             slidesContainer.on('touchend', function (event) {
+                settings.autoPlayPaused = false;
                 var absMove = Math.abs(currentSlide * slideW - moveX);
                 if (absMove > slideW / 6 || longTouch === false) {
                     if ((moveX > currentSlide * slideW)) {

@@ -187,6 +187,33 @@ table {
 	display: block;
 }
 
+.xs-slider-indicators{
+  position: absolute;
+  bottom: 20px;
+  z-index: 9;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+.xs-slider-indicators .indicator{
+  width: 10px;
+  height: 10px;
+  border-radius: 10px;
+  background: #666;
+  display: inline-block;
+  margin: 0 5px;
+  border: 1px solid #666;
+
+  transition: all 0.3s;
+}
+.xs-slider-indicators .indicator.active{
+  background: #fff;
+  border-color: #fff;
+}
+.xs-slider-indicators .indicator:hover{
+  border-color: #fff;
+}
+
 
 /* specified */
 .slide{
