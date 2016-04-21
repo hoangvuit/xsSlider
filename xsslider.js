@@ -4,7 +4,8 @@
             height: 400,
             transitionDuration: 500,
             autoPlayDuration: 5000,
-            autoPlayPaused: false
+            autoPlayPaused: false, 
+            autoPlay: true
         },
         settings, container, viewport, slidesContainer, slides, slideW, slideH, totalSlides,
         currentSlide = 1;
@@ -40,9 +41,9 @@
             viewport.append(slideNav);
 
             slideNav.find('a').on('click', function () {
+                container.addClass('nav-blocked');
                 if ($(this).hasClass('prev')) {
                     currentSlide -= 1;
-
                 } else {
                     currentSlide += 1;
                 }
@@ -68,6 +69,7 @@
             slidesContainer.transit({
                 x: distance
             }, settings.transitionDuration, function () {
+                container.removeClass('nav-blocked touch-blocked');
                 if (currentSlide == totalSlides - 1) {
                     jumpToSlide(1);
                 }
@@ -119,6 +121,7 @@
                 slidesContainer.css('transform', 'translate(-' + moveX + 'px,0,0)');
             });
             slidesContainer.on('touchend', function (event) {
+                container.addClass('touch-blocked');
                 settings.autoPlayPaused = false;
                 var absMove = Math.abs(currentSlide * slideW - moveX);
                 if (absMove > slideW / 6 || longTouch === false) {
@@ -156,7 +159,7 @@
             cloneSlides();
             slides = element.find('.slide');
             slideW = (settings.width == 'auto') ? normalizeWindowW() : settings.width;
-            slideH = settings.height;
+            slideH = (settings.height == 'auto') ? $(window).height() : settings.height;
             totalSlides = slides.length;
 
             prepareStage();
@@ -168,12 +171,16 @@
             $(window).on('resize', function () {
                 window.setTimeout(function () {
                     slideW = (settings.width == 'auto') ? normalizeWindowW() : settings.width;
+                    slideH = (settings.height == 'auto') ? $(window).height() : settings.height;
+
                     prepareStage();
                     jumpToSlide();
                 }, 200);
             }).trigger('resize');
 
-            autoPlay();
+            if (settings.autoPlay){
+                autoPlay();
+            }
         }
 
     $.fn.xsSlider = function (options) {
@@ -183,4 +190,7 @@
     }
 }(jQuery));
 
-$('.xs-slider').xsSlider();
+$('.xs-slider').xsSlider({
+    autoPlay: false,
+    height: 'auto'
+});

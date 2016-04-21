@@ -50,7 +50,17 @@ table {
 
 /* gallery */
 .xs-slider {
-  margin-bottom: 30px;
+  position: relative;
+}
+.xs-slider:before{
+  display: none;
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
 }
 .xs-slider .viewport {
   width: 100%;
@@ -64,19 +74,7 @@ table {
 }
 .xs-slider .viewport .slides-container {
   -webkit-backface-visibility: hidden;
-  /*background-color: white;
-  background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjUwJSIgeTE9IjAlIiB4Mj0iNTAlIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIvPjxzdG9wIG9mZnNldD0iNTAlIiBzdG9wLWNvbG9yPSIjZjNmM2YzIi8+PHN0b3Agb2Zmc2V0PSI1MSUiIHN0b3AtY29sb3I9IiNlZGVkZWQiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZmZmZmYiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyYWQpIiAvPjwvc3ZnPiA=");
-  background-size: 100%;
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, white), color-stop(50%, #f3f3f3), color-stop(51%, #ededed), color-stop(100%, white));
-  background-image: -webkit-linear-gradient(top, white 0%, #f3f3f3 50%, #ededed 51%, white 100%);
-  background-image: -moz-linear-gradient(top, white 0%, #f3f3f3 50%, #ededed 51%, white 100%);
-  background-image: -o-linear-gradient(top, white 0%, #f3f3f3 50%, #ededed 51%, white 100%);
-  background-image: linear-gradient(top, #ffffff 0%, #f3f3f3 50%, #ededed 51%, #ffffff 100%);*/
-  /*-webkit-transition: all 0.75s ease-out;
-  -moz-transition: all 0.75s ease-out;
-  -o-transition: all 0.75s ease-out;
-  -ms-transition: all 0.75s ease-out;
-  transition: all 0.75s ease-out;*/
+  height: 100%;
 }
 .xs-slider .viewport .no-transition{
 	-webkit-transition: none;
@@ -96,6 +94,7 @@ table {
   float: left;
   vertical-align: top;
   list-style: none;
+  height: 100%;
 }
 .xs-slider .viewport .slides-container .slide > img {
   width: 100%;
@@ -184,6 +183,9 @@ table {
   z-index: 2;
 }
 .nav-blocked .viewport .xs-slider-nav:before{
+  display: block;
+}
+.touch-blocked:before{
 	display: block;
 }
 
@@ -234,4 +236,15 @@ table {
 }
 .slide-4{
   background-image: url(images/xspl-bg-3.jpg);
+}
+
+.banner-content{
+  position: relative;
+  top: 50%;
+  margin-top: -40px;
+  margin: -40px auto;
+  width: 230px;
+  text-align: center;
+  color: white;
+  line-height: normal;
 }
